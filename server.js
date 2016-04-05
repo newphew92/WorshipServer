@@ -5,12 +5,35 @@ var express= require('express');
 var bodyParser= require('body-parser')
 var mongoose = require('mongoose');
 var http = require('http');
-// mongoose.connect('mongodb://localhost:27017');
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function() {
-//   // we're connected!
-// });
+mongoose.connect('mongodb://localhost:27017');
+var Schema = mongoose.Schema;
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+//mongod
+//mongo
+// show dbs
+// use db
+// show collections
+// var Schema = mongoose.Schema;
+// var state = new Schema({
+//   spawnX: double,
+//   spawnY: double,
+//   spawnZ: double,
+//
+// })
+// db.gameStates.find().skip(db.collection.count()-1)
+var GameSchema = new Schema({
+  spawnX: Number,
+  spawnY: Number,
+  spawnZ: Number,
+  enemies: Number
+});
+var GameStates = mongoose.model('gameStates', GameSchema);
+
 var app=express();
 var PORT = 8080;
 
@@ -34,6 +57,10 @@ function handleRequest(request, response){
       // response.setEncoding('utf8');
       request.on('data', function (chunk) {
         console.log('BODY: ' + chunk);
+        var state = new GameStates(chunk);
+        state.save(function(err){
+          if (err) throw err;
+        });
       });
       response.end('I think I managed to save' )
 
