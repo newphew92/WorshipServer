@@ -12,7 +12,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-});
+
 //mongod
 //mongo
 // show dbs
@@ -75,7 +75,7 @@ server.listen(PORT, function(){
     console.log("Server listening on: http://localhost:%s", PORT);
 });
 
-
+});
 
 // app.use(express.static('/Client'));
 // app.use(bodyParser);
