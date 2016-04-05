@@ -5,7 +5,7 @@ var express= require('express');
 var bodyParser= require('body-parser')
 var mongoose = require('mongoose');
 var http = require('http');
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://localhost:27017/Worship');
 var Schema = mongoose.Schema;
 
 var db = mongoose.connection;
@@ -58,9 +58,7 @@ function handleRequest(request, response){
       request.on('data', function (chunk) {
         console.log('BODY: ' + chunk);
         var state = new GameStates(chunk);
-        state.save(function(err){
-          if (err) throw err;
-        });
+        state.collection.insert(chunk);
       });
       response.end('I think I managed to save' )
 
